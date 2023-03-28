@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    {% if title %}
+        <title> Web-news Classification - {{title}}</title>
+    {% else %}
+        <title> Web-news Classification</title>
+    {% endif %}
+    <head>
+        <font size = 10>
+            <p> Web-news Classification</p>
+        </font>
+        </head>
+    <body>
+        
+        {% if messages%}
+            {%for message in messages %}
+                <div class = 'alert alert-{{ message.tags}}'></div>
+                {{ message }}
+            {% endfor %}
+        {% endif%}
+        {% block content %}{% endblock %}
+        
+    </body>
+</html>
+
+<style>
+    p {
+        text-align: center;
+    }
+</style>

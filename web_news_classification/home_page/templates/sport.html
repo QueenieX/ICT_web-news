@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    <font size = 5>
+        <p> Business, Politics, Entertainment, Sport, Tech</p>
+    </font>
+    {% for news in news_list %}
+    {% if news.category == 'Sport'%}
+        <p> {{news.title}}'s category :{{news.category}}</p>
+        <p> {{news.postdate}}</p>
+    {% endif %}
+    {% endfor %}
+{% endblock content %}
