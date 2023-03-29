@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
-    {% if title %}
-        <title> Web-news Classification - {{title}}</title>
-    {% else %}
-        <title> Web-news Classification</title>
-    {% endif %}
+    <title>{% block title%}{% endblock %} </title>
     <head>
         <font size = 10>
             <p> Web-news Classification</p>
@@ -18,6 +14,22 @@
                 {{ message }}
             {% endfor %}
         {% endif%}
+            <form action = 'business'>
+                <button>Business</button>
+                </form>
+            <form action = 'politics'>
+                <button>Politics</button>
+            </form>
+            <form action = 'entertainment'>
+                <button>Entertainment</button>
+            </form>
+            <form action = 'sport'>
+                <button>Sport</button>
+            </form>
+            <form action = 'tech'>
+                <button>Technology</button>
+            </form>
+        
         {% block content %}{% endblock %}
         
     </body>

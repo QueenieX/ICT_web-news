@@ -26,6 +26,7 @@ context = {
     }
 # Create your views here.
 def home(request):
+    name = 'Home'
     return render(request, 'home.html', context)
 
 def businessCategory(request):
