@@ -1,0 +1,10 @@
+{% extends 'home.html' %}
+{% block title%}Tech{% endblock %}
+{% block content %}
+    {% for news in news_list %}
+    {% if news.category == 'Tech'%}
+        <p> {{news.title}}'s category :{{news.category}}</p>
+        <p> {{news.postdate}}</p>
+    {% endif %}
+    {% endfor %}
+{% endblock content %}
