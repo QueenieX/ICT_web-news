@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-context = {
+content = {
         'news_list' : [
     {
     'title' : 'News 1',
@@ -25,28 +25,31 @@ context = {
 ]
     }
 # Create your views here.
-
+# Before accessing the below view
 @login_required
 def home(request):
-    name = 'Home'
-    return render(request, 'home.html', context)
+    return render(request, 'home.html', content)
 
 @login_required
 def businessCategory(request):
-    return render(request, 'business.html', context)
+    return render(request, 'business.html', content)
 
 @login_required
 def politicsCategory(request):
-    return render(request, 'politics.html', context)
+    return render(request, 'politics.html', content)
 
 @login_required
 def entertainmentCategory(request):
-    return render(request, 'entertainment.html', context)
+    return render(request, 'entertainment.html', content)
 
 @login_required
 def sportCategory(request):
-    return render(request, 'sport.html', context)
+    return render(request, 'sport.html', content)
 
 @login_required
 def techCategory(request):
-    return render(request, 'tech.html', context)
+    return render(request, 'tech.html', content)
+
+# drop bar, serach bar do it in one page
+# CSS
+#

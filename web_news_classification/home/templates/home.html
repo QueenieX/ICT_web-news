@@ -1,10 +1,26 @@
 {% extends 'base.html' %}
 {% block title%}Home{% endblock %}
 {% block content %}
-    {% block news%}{% endblock %}
-    {% for news in news_list %}
-        <p> {{news.title}}'s category :{{news.category}}</p>
-        <p> {{news.postdate}}</p>
+    <label for="category">Choose category</label>
+    <select id = 'category' multiple>
+        <option value="business">Business</option>
+        <option value="politics">Politics</option>
+        <option value="entertainment">Entertainment</option>
+        <option value="sport">Sport</option>
+        <option value="tech">Tech</option>
+    </select>
+    <button onclick = "getValue()">Choose</button>
+    <p id = 'output'></p>
+    <script>
+        function getValue(){
+            var news_list = document.getElementsByTagName(news_list).item;
+            document.write(news_list)
+            var category = document.getElementById('category').value;
+            var output = ''
+            
+            document.getElementById('output').innerHTML = output;
+        }
+        
+    </script>
 
-    {% endfor %}
     {% endblock content %}
