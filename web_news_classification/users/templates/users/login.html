@@ -2,20 +2,30 @@
     <meta http-equiv="refresh" content="0; 'home'"></meta>
 {% endif %}
 
-<div class = 'content-section'>
+<h1>Web News Classification<h1>
     <form method = "POST">
         {% csrf_token %}
         <fieldset class = 'form-group'>
-            <legend class = 'boarder-bottom mb-4 '>Log In</legend>
             {{form}}
         </fieldset>
-        <div class = 'form-group'>
-            <button class = 'btn btn-outline-info' type = 'submit' type = 'submit'>Login</button>
-        </div>
+            <button type = 'submit'>Login</button>
     </form>
-    <div class = 'boarder-top pt-3'>
         <small class="text-muted">
             Need An Account? <a class="ml-2" href="register">Register</a>
         </small>
-    </div>
-</div>
+
+<style>
+h1{
+    text-align: center;
+    font-size: 72px;
+    }
+form{
+    display: block;
+    text-align:center;
+    font-size:24px;
+}
+small{
+    text-align: center;
+    font-size: 16px;
+}
+</style>

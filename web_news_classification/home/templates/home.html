@@ -1,26 +1,18 @@
-{% extends 'base.html' %}
-{% block title%}Home{% endblock %}
-{% block content %}
-    <label for="category">Choose category</label>
-    <select id = 'category' multiple>
-        <option value="business">Business</option>
-        <option value="politics">Politics</option>
-        <option value="entertainment">Entertainment</option>
-        <option value="sport">Sport</option>
-        <option value="tech">Tech</option>
-    </select>
-    <button onclick = "getValue()">Choose</button>
-    <p id = 'output'></p>
-    <script>
-        function getValue(){
-            var news_list = document.getElementsByTagName(news_list).item;
-            document.write(news_list)
-            var category = document.getElementById('category').value;
-            var output = ''
-            
-            document.getElementById('output').innerHTML = output;
-        }
-        
-    </script>
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="../../styles.css">
+</head>
+<h1>News Classification</h1>    
 
-    {% endblock content %}
+<a href="../logout">Logout</a>
+<label for="category">Choose category (ctrl + right click to select multiple options)</label>
+<br>
+<select id = 'category' multiple>
+    <option value="business">Business</option>
+    <option value="politics">Politics</option>
+    <option value="entertainment">Entertainment</option>
+    <option value="sport">Sport</option>
+    <option value="tech">Tech</option>
+</select>
+<br>
+<button onclick = "getValue()">Choose</button>
