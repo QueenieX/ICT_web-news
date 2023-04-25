@@ -1,0 +1,19 @@
+{% if request.user.is_authenticated %}
+    <meta http-equiv="refresh" content="0; 'home'"></meta>
+{% endif %}
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head> 
+<h1>Web News Classification<h1>
+
+    <form method = "POST">
+        {% csrf_token %}
+        <fieldset class = 'form-group'>
+            {{form}}
+        </fieldset>
+            <button type = 'submit'>Login</button>
+    </form>
+<small>
+    Need An Account? <a href="register">Register</a>
+</small>
