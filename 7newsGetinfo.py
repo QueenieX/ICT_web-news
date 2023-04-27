@@ -21,8 +21,8 @@ for url in article_urls_7news:
 
     # Find the HTML element that contains the news content
     article_contents = soup.find_all('article')
-    # Extract the text content from all the span elements in each block-content div
-
+    
+    # Extract the text content
     content = ""
     for content_div in article_contents:
         content_paras = content_div.find_all('p')
