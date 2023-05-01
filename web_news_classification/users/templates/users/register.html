@@ -1,0 +1,21 @@
+<title>Register</title>
+<!-- Load styles from styles.css in the static folder-->
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<h1>Registration</h1>
+    <!-- a form for registration,
+        only username and password required-->
+    <form method = "POST">
+        {% csrf_token %}
+        <fieldset class = 'form-group'>
+            <legend class = 'boarder-bottom mb-4 '>Join Today</legend>
+            {{form}}
+        </fieldset>
+            <button type = 'submit'>Sign Up</button>
+    </form>
+<!-- a button to redirect user to the login page-->
+<small>
+    Already Have An Account? <a class="ml-2" href="/">Login</a>
+</small>

@@ -1,0 +1,23 @@
+<!-- if the user logged in, redirect to home page-->
+{% if request.user.is_authenticated %}
+    <meta http-equiv="refresh" content="0; 'home'"></meta>
+{% endif %}
+<!-- Load styles from styles.css in the static folder-->
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head> 
+<h1>Web News Classification<h1>
+    <!-- form for user to enter username and password to login-->
+    <form method = "POST">
+        {% csrf_token %}
+        <fieldset class = 'form-group'>
+            {{form}}
+        </fieldset>
+            <button type = 'submit'>Login</button>
+    </form>
+<!-- a button for user without account
+    redirect to register page-->
+<small>
+    Need An Account? <a href="register">Register</a>
+</small>

@@ -1,0 +1,74 @@
+<!-- Load styles from styles.css in the static folder-->
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<h1>News Classification</h1>
+<!-- a search bar for news searching by urls-->
+<label for="news-search">Search news by url:</label>
+<input type="search" id="news-search" name="q">
+
+<button>Search</button>
+
+<!-- button to redirect user to logout page and logout their account-->
+<a style = 'margin-left:75%' href="../logout">Logout</a>
+
+<!-- a drop down list contain category-->
+<label for="category">Choose category</label>
+<br>
+<select id = 'category'>
+    {% for c in categories %}
+    <option value = 'a'>{{c.categoryname}}</option>
+    {% endfor %}
+</select>
+<br>
+<p id = 're'></p>
+<script>
+    category.onchange = function(){
+        re.innerText = this.value;
+        var selected = document.getElementById('category');
+        var table = document.getElementById(news_table);
+        var tr = table.querySelector().getElementByTagName("tr");
+        for(var i = 0; i < tr.length; i++){
+            var td = tr[i]document.getElementByTagName("td")[1];
+            if (td == selected)
+                tr[i].style.display = "";
+            }
+            else{
+                tr[i].style.display = "none";
+            }
+        }
+</script>
+<table id = 'news_table'>
+    <tr>
+        <th>Title</th>
+        <th>Category</th>
+    </tr>
+        {% for news in newsarticles %}
+        <td>{{news.title}}
+            <br>
+            <a style = 'text-align:center' href='https://www.freecodecamp.org' target="_blank">To the news</a>
+        </td>
+        <td>{{news.categoryid}}</td>
+        </tr>
+        {% endfor %}
+</table>
+
+<style>
+    input{
+        margin: auto;
+        display: block;
+        width: 300px;
+    }
+    table{
+        border:1px solid black;
+        width: 75%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    th,td{
+        border:1px solid black;
+        text-align:center;
+    }
+</style>
+
