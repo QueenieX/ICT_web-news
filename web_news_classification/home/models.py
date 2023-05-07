@@ -89,6 +89,7 @@ class Categories(models.Model):
         return self.categoryname
 
 
+
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -148,6 +149,10 @@ class Newsarticles(models.Model):
     
     def __str__(self):
         return self.title
+    
+    def gettype(self):
+        return type(self.categoryid)
+
 
 
 class Users(models.Model):

@@ -4,6 +4,21 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <h1>News Classification</h1>
+
+<h2 id = 'date'></h2>
+<script>
+    var date = new Date();
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1;
+    var yyyy = date.getFullYear();
+    if(dd<10){
+        dd = '0' + dd;
+    }
+    if (mm<10){
+        mm='0'+mm;
+    }
+    document.getElementById('date').innerHTML = yyyy + '-' + mm + '-' + dd;
+</script>
 <!-- a search bar for news searching by urls-->
 <label for="news-search">Search news by url:</label>
 <input type="search" id="news-search" name="q">
@@ -16,28 +31,32 @@
 <!-- a drop down list contain category-->
 <label for="category">Choose category</label>
 <br>
-<select id = 'category'>
+<select id = 'category' onchange="update()">
+    <option>--</option>
     {% for c in categories %}
-    <option value = 'a'>{{c.categoryname}}</option>
+    <option>{{c.categoryname}}</option>
     {% endfor %}
 </select>
 <br>
 <p id = 're'></p>
 <script>
-    category.onchange = function(){
-        re.innerText = this.value;
+    function update(){
         var selected = document.getElementById('category');
-        var table = document.getElementById(news_table);
-        var tr = table.querySelector().getElementByTagName("tr");
-        for(var i = 0; i < tr.length; i++){
-            var td = tr[i]document.getElementByTagName("td")[1];
-            if (td == selected)
-                tr[i].style.display = "";
+        selected = selected.options[selected.selectedIndex].text;
+        var trs = document.querySelectorAll('tr');
+            for(var i = 1; i < trs.length; i++){
+                var td = trs[i].querySelectorAll("td")[1];
+                if (td.innerHTML === selected){
+                    trs[i].style.display = "table-row";
+                }
+                else{
+                    trs[i].style.display = "none";
+                }
             }
-            else{
-                tr[i].style.display = "none";
-            }
-        }
+    }
+    function check(){
+        return 'yes';
+    }
 </script>
 <table id = 'news_table'>
     <tr>
@@ -45,13 +64,14 @@
         <th>Category</th>
     </tr>
         {% for news in newsarticles %}
+        <tr id = '{{news.date}}'>
         <td>{{news.title}}
             <br>
-            <a style = 'text-align:center' href='https://www.freecodecamp.org' target="_blank">To the news</a>
+            <a style = 'text-align:center' href={{news.url}} target="_blank">To the news</a>
         </td>
         <td>{{news.categoryid}}</td>
         </tr>
-        {% endfor %}
+        {%endfor%}
 </table>
 
 <style>
