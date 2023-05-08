@@ -1,5 +1,5 @@
-CREATE DATABASE newsclassification;
-USE newsclassification;
+CREATE DATABASE newsTRAINING;
+USE newsTRAINING;
 
 CREATE TABLE Categories 
 (
@@ -16,8 +16,6 @@ CREATE TABLE Users
     UserID INT AUTO_INCREMENT PRIMARY KEY,
     Email VARCHAR(255),
     SearchHistory TEXT,
-    Gender VARCHAR(255),
-    Age INT,
     Preference1 INT,
     Preference2 INT,
     FOREIGN KEY (Preference1) REFERENCES Categories(CategoryID),
@@ -26,12 +24,13 @@ CREATE TABLE Users
 
 CREATE TABLE NewsArticles 
 (
-    ArticleID INT AUTO_INCREMENT PRIMARY KEY,
+    ArticleID INT PRIMARY KEY,
     Title VARCHAR(255) NOT NULL,
     CategoryID INT NOT NULL,
-    Date DATE NOT NULL,
+    CategoryName VARCHAR(255) NOT NULL,
+    Date DATE,
     URL VARCHAR(255) NOT NULL,
-    Content VARCHAR(5000) NOT NULL,
+    Content VARCHAR(5000),
     FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
 );
 
@@ -42,7 +41,6 @@ ON Categories (CategoryName);
 
 
 show tables;
-DESCRIBE newsarticles;
-DESC categories;
+DESC newsarticles;
 select * from categories;
 select * from newsarticles;
