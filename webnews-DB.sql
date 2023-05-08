@@ -28,16 +28,14 @@ CREATE TABLE NewsArticles
     Title VARCHAR(255) NOT NULL,
     CategoryID INT NOT NULL,
     CategoryName VARCHAR(255) NOT NULL,
-    Date DATE,
+    Date VARCHAR(500),
     URL VARCHAR(255) NOT NULL,
-    Content VARCHAR(5000),
+    Content text(100000),
     FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
 );
 
 CREATE INDEX idx_CategoryName
 ON Categories (CategoryName);
-
-
 
 
 show tables;
