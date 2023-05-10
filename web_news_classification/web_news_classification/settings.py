@@ -75,8 +75,7 @@ WSGI_APPLICATION = 'web_news_classification.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# https://www.javatpoint.com/how-to-connect-mysql-to-django
-## instruction to link a database
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  

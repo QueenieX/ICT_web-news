@@ -4,11 +4,13 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <h1>News Classification</h1>
-
-<h2 id = 'date'></h2>
+<!-- show today's date-->
+<h3 id = 'date'></h3>
+<!-- java script for getting today's date-->
 <script>
     var date = new Date();
     var dd = date.getDate();
+    // source code error, getMonth() default is 0 - 11
     var mm = date.getMonth() + 1;
     var yyyy = date.getFullYear();
     if(dd<10){
@@ -20,11 +22,18 @@
     document.getElementById('date').innerHTML = yyyy + '-' + mm + '-' + dd;
 </script>
 <!-- a search bar for news searching by urls-->
-<label for="news-search">Search news by url:</label>
-<input type="search" id="news-search" name="q">
 
-<button>Search</button>
-
+<form action = 'search' method = 'get'>
+    <label for = 'url'>Enter a url: </label>
+    <input id = 'url' type = 'text' name = 'url' value = ''>
+</br>
+    <input type = 'submit' value = 'submit'>
+</form>
+{% if predict_news%}
+{% for i in predict_news%}
+<p>{{i}}</p>
+{%endfor%}
+{% endif %}
 <!-- button to redirect user to logout page and logout their account-->
 <a style = 'margin-left:75%' href="../logout">Logout</a>
 
@@ -38,7 +47,7 @@
     {% endfor %}
 </select>
 <br>
-<p id = 're'></p>
+
 <script>
     function update(){
         var selected = document.getElementById('category');
@@ -75,6 +84,7 @@
 </table>
 
 <style>
+    p {text-align: center;}
     input{
         margin: auto;
         display: block;
