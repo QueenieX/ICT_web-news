@@ -5,6 +5,7 @@ from sklearn.preprocessing import LabelEncoder
 from keras.models import Sequential
 from keras.layers import Dense
 from sklearn.model_selection import train_test_split
+import pickle
 
 # 读取数据集
 data = pd.read_csv("news_dataset.csv", header=0, usecols=[2, 3], encoding="utf-8")
@@ -49,8 +50,14 @@ test_acc = history.history['val_accuracy'][-1]
 print(f"Train accuracy: {train_acc*100:.2f}%")
 print(f"Test accuracy: {test_acc*100:.2f}%")
 
-# 保存模型为HDF5文件
-model.save("news_classifier.h5")
+# 保存模型为pickle文件
+with open("model.pkl", "wb") as f:
+    pickle.dump(model, f)
 
-# 保存标签编码器的类别
-np.save('label_encoder_classes.npy', label_encoder.classes_)
+# 保存训练过的TfidfVectorizer
+with open("vectorizer.pkl", "wb") as f:
+    pickle.dump(vectorizer, f)
+
+# 保存LabelEncoder
+with open("label_encoder.pkl", "wb") as f:
+    pickle.dump(label_encoder, f)
