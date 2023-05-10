@@ -1,52 +1,57 @@
 import feedparser
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
 import datetime
 
-# Define the RSS URLs for the three websites
 rss_urls = [
     "https://www.news.com.au/content-feeds/latest-news-national/",
     "https://7news.com.au/rss-feeds",
     "https://www.9news.com.au/rss"
 ]
 
-# Define today's date as a datetime object
-today = datetime.date.today()
-
-# Create a set to store the URLs of the articles published today
-today_article_urls = set()
-
-# Loop through each RSS URL
 for rss_url in rss_urls:
-    # Parse the RSS feed
     feed = feedparser.parse(rss_url)
-
-    # Loop through each article in the feed
     for entry in feed.entries:
-        # Check if the entry has a published date
-        if "published_parsed" in entry:
-            # Use the published date as the article's date
-            date = datetime.date(*entry.published_parsed[:3])
+        print(entry.link)
+        
+        if entry.link.startswith("https://www.news.com.au"):
+            response = requests.get(entry.link)
+            soup = BeautifulSoup(response.text, "html.parser")
+            articles = soup.find_all('div', class_='story-article')
+            for article in articles:
+                link = article.find('a')['href']
+                title = article.find('a').text.strip()
+                
+                date_str = soup.find('div', id='publish-date').text.strip().split(' - ')[0]
+                published_date = datetime.datetime.strptime(date_str, "%B %d, %Y %I:%M%p")
+        
+        elif entry.link.startswith("https://7news.com.au"):
+            response = requests.get(entry.link)
+            soup = BeautifulSoup(response.text, "html.parser")
+            articles = soup.find_all('div', class_='css-c8eknp-StyledSNEnt efjxvb10')
+            for article in articles:
+                link = article.find('a')['href']
+                title = article.find('a').text.strip()
+                
+                date_str = soup.find('time')['datetime']
+                published_date = datetime.datetime.strptime(date_str, "%Y-%m-%dT%H:%M%z")
         else:
-            # Try to use other date attributes
-            if "updated_parsed" in entry:
-                date = datetime.date(*entry.updated_parsed[:3])
-            elif "created_parsed" in entry:
-                date = datetime.date(*entry.created_parsed[:3])
+            # For 9news.com.au, use the pubDate attribute
+            if "published" in entry:
+                published_date = datetime.datetime.strptime(
+                    entry.published, "%a, %d %b %Y %H:%M:%S %z"
+                ).timetuple()
             else:
-                # Skip the article if there is no date attribute
                 continue
+            
+        # Convert the published date to a Python datetime object
+        published_datetime = datetime.datetime.fromtimestamp(
+            datetime.datetime(*published_date[:6]).timestamp()
+        )
 
-        # Check if the article was published today
-        if date == today:
-            # Get the article's URL
-            url = entry.link
-
-            # Check if the article's URL is already in the set
-            if url not in today_article_urls:
-                # Add the URL to the set
-                today_article_urls.add(url)
-
-                # Print the article's date and URL
-                print(date, url)
-
+        # Check if the published date is today
+        today = datetime.datetime.today().date()
+        if published_datetime.date() == today:
+            # Print the published date in ISO 8601 format
+            print(published_datetime.isoformat(), entry.link)
+            
