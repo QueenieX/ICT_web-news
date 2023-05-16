@@ -88,6 +88,7 @@ class Categories(models.Model):
     def __str__(self):
         return self.categoryname
     
+    
 
 
 
@@ -142,7 +143,7 @@ class Newsarticles(models.Model):
     categoryid = models.ForeignKey(Categories, models.DO_NOTHING, db_column='CategoryID')  # Field name made lowercase.
     date = models.DateField(db_column='Date')  # Field name made lowercase.
     url = models.CharField(db_column='URL', max_length=255)  # Field name made lowercase.
-    content = models.TextField(db_column='Content', max_length=5000)  # Field name made lowercase.
+    content = models.TextField(db_column='Content', max_length=10000)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -151,7 +152,7 @@ class Newsarticles(models.Model):
     def __str__(self):
         return self.title
     
-    def gettype(self):
+    def get_categoryid(self):
         return type(self.categoryid)
 
 
