@@ -6,11 +6,14 @@ from keras.models import Sequential
 from keras.layers import Dense
 from sklearn.model_selection import train_test_split
 import pickle
+from home.models import Categories, Newsarticles 
 
 # 读取数据集
 data = pd.read_csv("news_dataset.csv", header=0, usecols=[2, 3], encoding="utf-8")
 
 # 提取摘要和标签
+category_list = Categories.objects.all().values
+
 X = data["Content"]
 y = data["Category"]
 

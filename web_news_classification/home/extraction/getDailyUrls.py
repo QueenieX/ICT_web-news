@@ -9,6 +9,7 @@ def get_daily_url():
         "https://www.9news.com.au/rss"
     ]
     output = []
+    today = datetime.datetime.today().date()
     for rss_url in rss_urls:
         feed = feedparser.parse(rss_url)
         for entry in feed.entries:
@@ -23,6 +24,8 @@ def get_daily_url():
                     
                     date_str = article.find('div', class_='byline_publish').text.strip().split(' - ')[0]
                     published_date = datetime.datetime.strptime(date_str, "%B %d, %Y")
+                    # if (published_date == today):
+                    #     output += link
             
             else:
                 # For 9news.com.au, use the pubDate attribute
@@ -30,21 +33,19 @@ def get_daily_url():
                     published_date = datetime.datetime.strptime(
                         entry.published, "%a, %d %b %Y %H:%M:%S %z"
                     ).timetuple()
+                    # if (published_date == today):
+                    #     output += link
                 else:
                     continue
                 
             # Convert the published date to a Python datetime object
-            published_datetime = datetime.datetime.fromtimestamp(
-                datetime.datetime(*published_date[:6]).timestamp()
-            )
+            # published_datetime = datetime.datetime.fromtimestamp(
+            #     datetime.datetime(*published_date[:6]).timestamp()
+            # )
 
             # Check if the published date is today
-            today = datetime.datetime.today().date()
-            # if published_datetime.date() == today:
+            # today =  datetime.date(2023, 5, 16)
                 # Print the published date in ISO 8601 format
                 # print(published_datetime.isoformat(), entry.link)
     return output
 
-output = get_daily_url()
-
-print (output)

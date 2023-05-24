@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <h1>News Classification</h1>
+<body>
 <!-- show today's date-->
 <h3 id = 'date'></h3>
 <!-- java script for getting today's date-->
@@ -21,21 +22,21 @@
     }
     document.getElementById('date').innerHTML = yyyy + '-' + mm + '-' + dd;
 </script>
+<!-- button to redirect user to logout page and logout their account-->
+<a style = 'margin-left:75%' href="../logout">Logout</a>
 <!-- a search bar for news searching by urls-->
 
 <form action = 'search' method = 'get'>
     <label for = 'url'>Enter a url: </label>
-    <input id = 'url' type = 'text' name = 'url' value = ''>
+    <input style = 'width: 300px;' id = 'url' type = 'text' name = 'url' value = ''>
 </br>
-    <input type = 'submit' value = 'submit'>
+    <input style = 'background-color: #3f7daf'type = 'submit' value = 'submit'>
 </form>
 {% if predict_news%}
 {% for i in predict_news%}
 <p>{{i}}</p>
 {%endfor%}
 {% endif %}
-<!-- button to redirect user to logout page and logout their account-->
-<a style = 'margin-left:75%' href="../logout">Logout</a>
 
 
 <!-- button for getting daily news-->
@@ -45,12 +46,15 @@
 <!-- a drop down list contain category-->
 <label for="category">Choose category</label>
 <br>
-<select id = 'category' onchange="update()">
-    <option>--</option>
-    {% for c in categories %}
-    <option>{{c.categoryname}}</option>
-    {% endfor %}
-</select>
+<div class = 'dropdown'>
+    <select id = 'category' onchange="update()">
+        <option>--</option>
+        {% for c in categories %}
+        <option>{{c.categoryname}}</option>
+        {% endfor %}
+    </select>
+</div>
+
 <br>
 
 <script>
@@ -60,16 +64,16 @@
         var trs = document.querySelectorAll('tr');
             for(var i = 1; i < trs.length; i++){
                 var td = trs[i].querySelectorAll("td")[1];
-                if (td.innerHTML === selected){
+                if (td.innerHTML === '--'){
+                    trs[i].style.display = "table-row";
+                }
+                else if (td.innerHTML === selected){
                     trs[i].style.display = "table-row";
                 }
                 else{
                     trs[i].style.display = "none";
                 }
             }
-    }
-    function check(){
-        return 'yes';
     }
 </script>
 <table id = 'news_table'>
@@ -81,19 +85,20 @@
         <tr id = '{{news.date}}'>
         <td>{{news.title}}
             <br>
-            <a style = 'text-align:center' href={{news.url}} target="_blank">To the new</a>
+            <a style = 'text-align:center' href={{news.url}} target="_blank">To the news</a>
         </td>
         <td>{{news.categoryid}}</td>
         </tr>
         {%endfor%}
 </table>
+</body>
 
 <style>
     p {text-align: center;}
     input{
         margin: auto;
         display: block;
-        width: 300px;
+        
     }
     table{
         border:1px solid black;
@@ -105,5 +110,54 @@
         border:1px solid black;
         text-align:center;
     }
+    button{
+        background-color: #3f7daf;
+    }
+    .dropdown {
+        display: block;
+        text-align:center;
+      }
+
+      .dropdown select {
+        background-color: #3f7daf;
+        color: white;
+        padding: 6px;
+        width: 150px;
+        border: none;
+        font-size: 16px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+        -webkit-appearance: button;
+        appearance: button;
+        outline: none;
+      }
+
+      .dropdown::before {
+        content: "\f13a";
+        font-family: FontAwesome;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 20%;
+        height: 100%;
+        text-align: center;
+        font-size: 28px;
+        line-height: 45px;
+        color: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0.1);
+        pointer-events: none;
+      }
+
+      .dropdown:hover::before {
+        color: rgba(255, 255, 255, 0.6);
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .dropdown select option {
+        padding: 30px;
+      }
+      body {  
+    background-color: #d9ecf1
+    }
+
 </style>
 

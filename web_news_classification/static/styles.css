@@ -1,13 +1,13 @@
 h1{
     text-align: center;
     font-size: 72px;
-    background-color: blanchedalmond;
+    background-color: rgb(169, 209, 160);
 }
 label{
     display: block;
     text-align:center;
     font-size:24px;
-    color: blue;
+    color: rgb(132, 132, 221);
 }
 select{
     display:block;
@@ -40,4 +40,18 @@ h2 {
 
 h3{
     text-align: center;
+}
+
+body {  
+    background-color: #d9ecf1
+    }
+
+a:link,a:visited{
+    padding: 5px 7px;
+    border: lightcoral;
+    display: inline-block;
+}
+
+a:hover,a:active{
+    color: green;
 }
