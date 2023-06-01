@@ -1,51 +1,51 @@
 import feedparser
+from dateutil import parser
 import requests
 from bs4 import BeautifulSoup
 import datetime
+from urllib.parse import urlparse
+from datetime import date, timedelta
 
-def get_daily_url():
+def get_daily_urls():
+    yesterday = date.today() - timedelta(days=1)
+    formattedY = yesterday.strftime("%B %d, %Y")
+    today = datetime.date.today()
+    formattedT = today.strftime("%B %d, %Y")
     rss_urls = [
         "https://www.news.com.au/content-feeds/latest-news-national/",
-        "https://www.9news.com.au/rss"
-    ]
-    output = []
-    today = datetime.datetime.today().date()
+        "https://www.news.com.au/content-feeds/latest-news-world/",
+        "https://www.7news.com.au/rss/",
+        "https://9news.com.au/just-in/rss"]
+    count = 0
+    outputs = []
     for rss_url in rss_urls:
         feed = feedparser.parse(rss_url)
+
         for entry in feed.entries:
-            output.append(entry.link)
-            if entry.link.startswith("https://www.news.com.au/content-feeds/latest-news-national/"):
+            if "published" in entry: # 9news&7news
+                published_date = parser.parse(entry.published)
+                date_text = published_date.strftime( "%B %d, %Y")
                 response = requests.get(entry.link)
-                soup = BeautifulSoup(response.text, "html.parser")
-                articles = soup.find_all('div', class_='story-article')
+
+                # Create a BeautifulSoup object from the response content
+                soup = BeautifulSoup(response.content, 'html.parser')
+
+            else: #news.com.au
+                response = requests.get(entry.link)
+                soup = BeautifulSoup(response.content, 'html.parser')
+                articles = soup.find_all('article')
+
                 for article in articles:
-                    link = article.find('a')['href']
-                    title = article.find('a').text.strip()
-                    
-                    date_str = article.find('div', class_='byline_publish').text.strip().split(' - ')[0]
-                    published_date = datetime.datetime.strptime(date_str, "%B %d, %Y")
-                    # if (published_date == today):
-                    #     output += link
-            
-            else:
-                # For 9news.com.au, use the pubDate attribute
-                if "published" in entry:
-                    published_date = datetime.datetime.strptime(
-                        entry.published, "%a, %d %b %Y %H:%M:%S %z"
-                    ).timetuple()
-                    # if (published_date == today):
-                    #     output += link
-                else:
-                    continue
-                
-            # Convert the published date to a Python datetime object
-            # published_datetime = datetime.datetime.fromtimestamp(
-            #     datetime.datetime(*published_date[:6]).timestamp()
-            # )
+                    link_element = article.find('a', class_='storyblock_title_link')
+                    if link_element:
+                        link = link_element['href']
+                    else:
+                        link = " "
+                    news_date = soup.find('div', class_='byline_publish')
+                    date_text = news_date.text.strip().split(' - ')[0]
 
-            # Check if the published date is today
-            # today =  datetime.date(2023, 5, 16)
-                # Print the published date in ISO 8601 format
-                # print(published_datetime.isoformat(), entry.link)
-    return output
-
+            if formattedT == date_text:
+                title = entry.title
+                link = entry.link
+                outputs.append(link)
+    return outputs

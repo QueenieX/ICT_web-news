@@ -1,163 +1,301 @@
-<!-- Load styles from styles.css in the static folder-->
 <head>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>News Classification</title>
+    
+    <style>
+        nav {
+            background-color: #BADFE7;
+            overflow: hidden;
+            padding: 1em 0;
+            height: 5%;
+        }
+        
+        nav a {
+            color: #6FB3B8;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 24px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            list-style-type: none;
+        }
+        
+        nav a:hover {
+            color: #388087;  /* Changed this from background-color to color */
+        }
+        
+        nav a.logout {
+            font-weight: bold;
+            margin-right: 20px;
+            float: right;
+        }
+
+        .date-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .web-title {
+            font-size: 2em; /* Increase the font size */
+            text-align: center; /* Center the text */
+            display: block; /* Make the anchor tag act like a block element */
+            font-weight: bold;
+        }
+
+        .date-label {
+            margin-right: 20px;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 600px;
+            margin: 2em auto;
+        }
+        
+        .search-label {
+            color: #333;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-right: 1em;
+        }
+        
+        .search-input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .submit-btn {
+            display: block;
+            background-color: #6fb3b8;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #388087;
+            color: #F6F6F2;
+        }
+
+        .get-daily {
+            display: block;
+            background-color: #6fb3b8;
+            color: #F6F6F2;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 0 auto;  /* Centers the button */
+        }
+        
+        .get-daily:hover {
+            background-color: #388087;
+            color: #F6F6F2;
+        }
+        
+        /* Styling for predicted news paragraphs */
+        .predicted-news {
+            margin: 2em auto;
+            max-width: 800px;
+            font-size: 1.2em;
+            color: #333;
+        }
+        
+        /* Styling for 'Get daily news' button */
+        form[action="get_daily_news"] button {
+            margin: 2em auto;
+            display: block;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .category-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1em auto;
+            max-width: 400px;
+        }
+        
+        .category {
+            margin-right: 1em;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .dropdown {
+            width: 150px;
+        }
+        
+        .dropdown select {
+            width: 100%;
+            background-color: #6fb3b8;
+            color: white;
+            padding: 6px;
+            border: none;
+            font-size: 16px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            -webkit-appearance: button;
+            appearance: button;
+            outline: none;
+            border-radius: 5px;
+        }
+
+        /* Styling for news table */
+        .table {
+            margin-top: 2em;
+            width: 100%;  /* Set table to occupy full width of its parent */
+            border-collapse: collapse; /* Combine borders */
+            font-size: 1em; /* Set font size */
+            color: #333; /* Set text color */
+        }
+        
+        .table th, .table td {
+            padding: 10px; /* Space within cell */
+            text-align: left; /* Alignment of text */
+            border-bottom: 1px solid #ddd; /* Bottom border */
+        }
+        
+        .table th {
+            background-color: #f2f2f2; /* Background color of the header cells */
+            font-weight: bold; /* Bold text for headers */
+        }
+        
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2; /* Alternate row colors */
+        }
+        
+        .table a {
+            color: #333; /* Link color */
+            text-decoration: none; /* Remove underline from links */
+        }
+        
+        .table a:hover {
+            color: #3f7daf; /* Change color on hover */
+            text-decoration: underline; /* Add underline on hover */
+        }
+
+        p {
+            text-align: center;
+        }
+
+    </style>
 </head>
-<h1>News Classification</h1>
 <body>
-<!-- show today's date-->
-<h3 id = 'date'></h3>
-<!-- java script for getting today's date-->
-<script>
-    var date = new Date();
-    var dd = date.getDate();
-    // source code error, getMonth() default is 0 - 11
-    var mm = date.getMonth() + 1;
-    var yyyy = date.getFullYear();
-    if(dd<10){
-        dd = '0' + dd;
-    }
-    if (mm<10){
-        mm='0'+mm;
-    }
-    document.getElementById('date').innerHTML = yyyy + '-' + mm + '-' + dd;
-</script>
-<!-- button to redirect user to logout page and logout their account-->
-<a style = 'margin-left:75%' href="../logout">Logout</a>
-<!-- a search bar for news searching by urls-->
+    
+    <nav>
+        <!-- show today's date-->
+        <li><a class="logout" href="../logout">Logout</a></li>
+    </nav>
+    <a class="web-title">News Classification</a>
+    <div style = 'text-align: center;' class="date-container">
+        <h3 class="date-label">Date: </h3>
+        <h3 id="date"></h3>
+    </div>    
 
-<form action = 'search' method = 'get'>
-    <label for = 'url'>Enter a url: </label>
-    <input style = 'width: 300px;' id = 'url' type = 'text' name = 'url' value = ''>
-</br>
-    <input style = 'background-color: #3f7daf'type = 'submit' value = 'submit'>
-</form>
-{% if predict_news%}
-{% for i in predict_news%}
-<p>{{i}}</p>
-{%endfor%}
-{% endif %}
+    <!-- button to redirect user to logout page and logout their account-->
+    
 
+    <!-- a search bar for news searching by urls-->
+    <form action="search" method="get">
+        <div class="search-container">
+            <label class="search-label" for="url">Enter a URL:</label>
+            <input class="search-input" id="url" type="text" name="url" style="width: 300px;" value="">
+            <input class="submit-btn" type="submit" value="Submit">
+        </div>
+        <br>
+        
+    </form>
 
-<!-- button for getting daily news-->
-<form action = get_daily_news>
-    <button type='submit'> Get daily news</button>
-</form>
-<!-- a drop down list contain category-->
-<label for="category">Choose category</label>
-<br>
-<div class = 'dropdown'>
-    <select id = 'category' onchange="update()">
-        <option>--</option>
-        {% for c in categories %}
-        <option>{{c.categoryname}}</option>
+    <!-- display predicted news -->
+    {% if predict_news %}
+        {% for i in predict_news %}
+            <p>{{ i }}</p>
         {% endfor %}
-    </select>
-</div>
+    {% endif %}
 
-<br>
+    <!-- button for getting daily news -->
+    <form action="get_daily_news">
+        <button class="get-daily" type="submit">Get daily news</button>
+    </form>
 
-<script>
-    function update(){
-        var selected = document.getElementById('category');
-        selected = selected.options[selected.selectedIndex].text;
-        var trs = document.querySelectorAll('tr');
-            for(var i = 1; i < trs.length; i++){
+    <!-- a drop down list contain category -->
+    <div class="category-container">
+        <label class="category" for="category">Choose category:</label>
+        <div class="dropdown">
+            <select id="category" onchange="update()">
+                <option>--</option>
+                {% for c in categories %}
+                    <option>{{ c.categoryname }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <br>
+
+    <table class="table" id="news_table">
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+        </tr>
+        {% for news in newsarticles %}
+            <tr id="{{ news.date }}">
+                <td>{{ news.title }}
+                    <br>
+                    <a href="{{ news.url }}" target="_blank">To the news</a>
+                </td>
+                <td>{{ news.categoryid }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        var date = new Date();
+        var dd = date.getDate();
+        // source code error, getMonth() default is 0 - 11
+        var mm = date.getMonth() + 1;
+        var yyyy = date.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        document.getElementById('date').innerHTML = yyyy + '-' + mm + '-' + dd;
+    
+        function update() {
+            var selected = document.getElementById('category');
+            selected = selected.options[selected.selectedIndex].text;
+            var trs = document.querySelectorAll('tr');
+            for (var i = 1; i < trs.length; i++) {
                 var td = trs[i].querySelectorAll("td")[1];
-                if (td.innerHTML === '--'){
+                if (td.innerHTML === '--') {
                     trs[i].style.display = "table-row";
                 }
-                else if (td.innerHTML === selected){
+                else if (td.innerHTML === selected) {
                     trs[i].style.display = "table-row";
                 }
-                else{
+                else {
                     trs[i].style.display = "none";
                 }
             }
-    }
-</script>
-<table id = 'news_table'>
-    <tr>
-        <th>Title</th>
-        <th>Category</th>
-    </tr>
-        {% for news in newsarticles %}
-        <tr id = '{{news.date}}'>
-        <td>{{news.title}}
-            <br>
-            <a style = 'text-align:center' href={{news.url}} target="_blank">To the news</a>
-        </td>
-        <td>{{news.categoryid}}</td>
-        </tr>
-        {%endfor%}
-</table>
-</body>
-
-<style>
-    p {text-align: center;}
-    input{
-        margin: auto;
-        display: block;
-        
-    }
-    table{
-        border:1px solid black;
-        width: 75%;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    th,td{
-        border:1px solid black;
-        text-align:center;
-    }
-    button{
-        background-color: #3f7daf;
-    }
-    .dropdown {
-        display: block;
-        text-align:center;
-      }
-
-      .dropdown select {
-        background-color: #3f7daf;
-        color: white;
-        padding: 6px;
-        width: 150px;
-        border: none;
-        font-size: 16px;
-        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-        -webkit-appearance: button;
-        appearance: button;
-        outline: none;
-      }
-
-      .dropdown::before {
-        content: "\f13a";
-        font-family: FontAwesome;
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 20%;
-        height: 100%;
-        text-align: center;
-        font-size: 28px;
-        line-height: 45px;
-        color: rgba(255, 255, 255, 0.5);
-        background-color: rgba(255, 255, 255, 0.1);
-        pointer-events: none;
-      }
-
-      .dropdown:hover::before {
-        color: rgba(255, 255, 255, 0.6);
-        background-color: rgba(255, 255, 255, 0.2);
-      }
-
-      .dropdown select option {
-        padding: 30px;
-      }
-      body {  
-    background-color: #d9ecf1
-    }
-
-</style>
-
+        }
+    </script>
+    </body>
+</html>

@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,16 @@ LOGIN_REDIRECT_URL = 'home/'
 
 LOGIN_URL = '/'
 
+#Celery settings
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis broker (or use RabbitMQ)
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # Redis result backend
+
+#Celery beat settings
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+CELERY_BEAT_SCHEDULE = {
+    'train_model_every_week': {
+        'task': 'home.tasks.train_model_task',  # task的全路径名
+        'schedule': crontab(day_of_week=0, hour=0, minute=0),  # 每周日0点运行任务
+    },
+}

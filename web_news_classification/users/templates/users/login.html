@@ -1,25 +1,141 @@
-<!-- if the user logged in, redirect to home page-->
-{% if request.user.is_authenticated %}
-    <meta http-equiv="refresh" content="0; 'home'"></meta>
-{% endif %}
-<!-- Load styles from styles.css in the static folder-->
+{% load static %}
+<!DOCTYPE html>
+<html>
 <head>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-</head> 
-<h1>Web News Classification<h1>
-    <!-- form for user to enter username and password to login-->
-    <form method = "POST">
-        {% csrf_token %}
-        <fieldset class = 'form-group'>
-            {{form}}
-        </fieldset>
-            <button type = 'submit'>Login</button>
-    </form>
-<!-- a button for user without account
-    redirect to register page-->
-    <body>
-<small>
-    Need An Account? <a href="register">Register</a>
-</small>
-    </body>
+
+    
+    <!-- CSS styles -->
+    <style>
+        body {background-color: #d9ecf1}
+
+        .no-underline {
+            text-decoration: none;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 72px;
+            background-color: #BADFE7;
+        }
+
+        label, select, form {
+            display: block;
+            text-align:center;
+            font-size:24px;
+        }
+
+        select {
+            margin: 0 auto;
+            width: 200px;
+        }
+
+        button {
+            display: block;
+            background-color: #6fb3b8;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+
+        a.no-underline {
+            display: block;
+            text-align:center;
+            width: 100px;
+            margin-left:47.5%
+        }
+
+        h2 {
+            font-size:48px;
+            text-align: center;
+        }
+
+        h3{
+            text-align: center;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .form-group label {
+            
+            margin-right: 20px;
+        }
+        
+        .form-group input {
+            display: inline-block;
+            max-width: 300px;
+            
+        }
+
+        .login-container {
+            justify-content: center;
+            width: 500px;
+            align-items: center;
+        }
+
+        .register-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;  /* 增加此行使容器宽度自适应 */
+        }
+
+        .register-label {
+            width: 300px;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .register-btn {
+            display: block;
+            background-color: #6fb3b8;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 24px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .register-btn:hover {
+            background-color: #388087;
+            color: #F6F6F2;
+        }
+
+
+    </style>
+</head>
+<body>
+    <h1 class="title">Web News Classification</h1>
+    <!-- form for user to enter username and password to login -->
+    <div class="login-container">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+                {{ form.password }}
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <!-- a button for user without account, redirect to register page -->
+    <div class="register-container">
+        <p class="register-label">Need An Account?</p>
+        <a class="register-btn no-underline" href="register">Register</a>
+    </div>
+</body>
+</html>

@@ -1,13 +1,13 @@
 h1{
     text-align: center;
     font-size: 72px;
-    background-color: rgb(169, 209, 160);
+    background-color: #BADFE7;
 }
 label{
     display: block;
     text-align:center;
     font-size:24px;
-    color: rgb(132, 132, 221);
+    color: #333;
 }
 select{
     display:block;
@@ -21,6 +21,7 @@ button{
 }
 a{
     display: block;
+    text-align:center;
     width: 100px;
     margin-left:47.5%
 }
@@ -28,10 +29,6 @@ form{
     display: block;
     text-align:center;
     font-size:24px;
-}
-small{
-    text-align: center;
-    font-size: 16px;
 }
 h2 {
     font-size:48px;
@@ -45,13 +42,3 @@ h3{
 body {  
     background-color: #d9ecf1
     }
-
-a:link,a:visited{
-    padding: 5px 7px;
-    border: lightcoral;
-    display: inline-block;
-}
-
-a:hover,a:active{
-    color: green;
-}
