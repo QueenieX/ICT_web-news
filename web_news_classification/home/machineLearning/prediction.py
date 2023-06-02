@@ -60,3 +60,4 @@ def predict(url):
     
     return title, predicted_label[0], content
 
+

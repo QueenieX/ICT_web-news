@@ -18,10 +18,10 @@ def home(request):
 
 def search(request):
     today = date.today()
-    news_url = request.GET.get('url')
-    predict_news = predict(news_url)
-    if (Newsarticles.objects.filter(title = predict_news[0]) == False):
-        try:
+    try:
+        news_url = request.GET.get('url')
+        predict_news = predict(news_url)
+        if (Newsarticles.objects.filter(title = predict_news[0]) == False):
             _, created = Newsarticles.objects.get_or_create(
                     title = predict_news[0],
                     categoryid = Categories(getcategoryid(predict_news[1])),
@@ -29,8 +29,9 @@ def search(request):
                     url = news_url,
                     content = (predict_news[2])[:5000],
                             )
-        except:
-            print('error')
+            
+    except:
+        predict_news = ['Error', 'please check your URL again']
     content = {
         'newsarticles' : Newsarticles.objects.filter(date = date.today()),
         'categories' : Categories.objects.all(),
