@@ -59,5 +59,5 @@ def get_daily_news(reqeust):
                             )
             except:
                 print('error')
-    return HttpResponse("<html><script>window.location.replace('/');</script></html>")
+    return HttpResponse("<html><script>window.location.replace('/home');</script></html>")
 

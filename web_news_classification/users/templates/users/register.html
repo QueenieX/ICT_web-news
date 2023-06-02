@@ -13,9 +13,42 @@
             <legend class = 'boarder-bottom mb-4 '>Join Today</legend>
             {{form}}
         </fieldset>
-            <button type = 'submit'>Sign Up</button>
+            <button class = 'login-btn no-underline;' type = 'submit'>Sign Up</button>
     </form>
 <!-- a button to redirect user to the login page-->
-<small>
-    Already Have An Account? <a class="ml-2" href="/">Login</a>
-</small>
+    <div class="login-container">
+        <p class="login-label">Already Have An Account?</p>
+        <a class="login-btn no-underline" href="/">Login</a>
+    </div>
+
+<style>
+        .login-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 60%;
+        margin: 0 auto;
+        width: 100%;  /* 增加此行使容器宽度自适应 */
+        }
+        .login-label {
+            width: 700px;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .login-btn {
+            display: block;
+            background-color: #6fb3b8;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 24px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .login-btn:hover {
+            background-color: #388087;
+            color: #F6F6F2;
+        }
+</style>
