@@ -239,7 +239,7 @@
         <label class="category" for="category">Choose category:</label>
         <div class="dropdown">
             <select id="category" onchange="update()">
-                <option>--</option>
+                <option>All</option>
                 {% for c in categories %}
                     <option>{{ c.categoryname }}</option>
                 {% endfor %}
@@ -283,7 +283,7 @@
             var trs = document.querySelectorAll('tr');
             for (var i = 1; i < trs.length; i++) {
                 var td = trs[i].querySelectorAll("td")[1];
-                if (td.innerHTML === '--') {
+                if (selected === 'All') {
                     trs[i].style.display = "table-row";
                 }
                 else if (td.innerHTML === selected) {
