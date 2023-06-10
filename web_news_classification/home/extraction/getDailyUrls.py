@@ -48,4 +48,5 @@ def get_daily_urls():
                 title = entry.title
                 link = entry.link
                 outputs.append(link)
+
     return outputs

@@ -88,10 +88,6 @@ class Categories(models.Model):
     def __str__(self):
         return self.categoryname
     
-    
-
-
-
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -154,8 +150,6 @@ class Newsarticles(models.Model):
     
     def get_categoryid(self):
         return type(self.categoryid)
-
-
 
 class Users(models.Model):
     userid = models.AutoField(db_column='UserID', primary_key=True)  # Field name made lowercase.

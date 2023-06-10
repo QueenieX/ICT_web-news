@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Newsarticles, Categories
+from .models import Newsarticles, Categories, Users
 from datetime import date
 from .machineLearning.prediction import predict
 from .extraction.getDailyUrls import *
@@ -9,18 +9,22 @@ from .extraction.getDailyUrls import *
 news_title = []
 # user need to login before access to home page
 @login_required
+# main page of the web application
 def home(request):
-    newsarticles = {
+    content = {
+        # only today's news will be appended
         'newsarticles' : Newsarticles.objects.filter(date = date.today()),
         'categories' : Categories.objects.all()}
-        
-    return render(request, 'home.html', newsarticles)
+    
+    return render(request, 'home.html', content)
 
+# url search function
 def search(request):
     today = date.today()
     try:
         news_url = request.GET.get('url')
         predict_news = predict(news_url)
+        # check if the news had stored in the database
         if (Newsarticles.objects.filter(title = predict_news[0]) == False):
             _, created = Newsarticles.objects.get_or_create(
                     title = predict_news[0],
@@ -29,7 +33,7 @@ def search(request):
                     url = news_url,
                     content = (predict_news[2])[:5000],
                             )
-            
+    # if the input from user is not a vaild url from news website 
     except:
         predict_news = ['Error', 'please check your URL again']
     content = {
@@ -43,12 +47,14 @@ def getcategoryid(categoryname):
     for c in Categories.objects.all():
         if c.categoryname == categoryname:
             return c.categoryid
-        
+
+# get daily news function
 def get_daily_news(reqeust):
     output = get_daily_urls()
     today = date.today()
     for url in output:
         predict_news = predict(url)
+        # if the news predicted is not in the database yet
         if not Newsarticles.objects.filter(title = predict_news[0]).exists():
             try:
                 _, created = Newsarticles.objects.get_or_create(
@@ -60,5 +66,6 @@ def get_daily_news(reqeust):
                             )
             except:
                 print('error')
-    return HttpResponse("<html><script>window.location.replace('/home');</script></html>")
 
+    # reload the page to display daily news 
+    return HttpResponse("<html><script>window.location.replace('/home');</script></html>")
